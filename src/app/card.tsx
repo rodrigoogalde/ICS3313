@@ -24,13 +24,15 @@ export default function Card({ img, text, orders, targetOrders }: CardProps) {
   return (
     <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:scale-105 transition-transform">
       {/* <img src={img} alt={text} className="w-40 h-40 object-cover rounded-md mb-2" /> */}
-      <Image
-        src={img}
-        alt={text}
-        width={160}
-        height={160}
-        className="w-40 h-40 object-cover rounded-md mb-2"
-      />
+      <div className="w-40 h-40 relative mb-2">
+        <Image
+          src={img}
+          alt={text}
+          fill
+          className="object-cover rounded-md"
+          sizes="160px"
+        />
+      </div>
       <h3 className="text-lg font-semibold text-gray-800 mb-1">{text}</h3>
       <span className="text-sm text-gray-500 mb-2">
         Pedidos realizados: {orders} / {targetOrders}
