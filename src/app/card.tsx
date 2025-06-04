@@ -38,9 +38,10 @@ export default function Card({ img, text, orders, targetOrders }: CardProps) {
         />
       </div>
       <h3 className="text-lg font-semibold text-gray-800 mb-1">{text}</h3>
-      <span className="text-sm text-gray-500 mb-2">
-        Pedidos realizados: {totalOrders} / {targetOrders}
-      </span>
+<span className="text-lg font-semibold text-gray-500 mb-2">
+  Meta: {totalOrders} / {targetOrders}
+</span>
+
       {/* Barra de progreso */}
       <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-4 relative">
         {/* Si la meta se logra, barra amarilla al 100% */}
