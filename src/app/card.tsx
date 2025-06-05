@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type CardProps = {
   img: string;
@@ -37,7 +38,11 @@ export default function Card({ img, text, orders, targetOrders }: CardProps) {
           sizes="160px"
         />
       </div>
-      <h3 className="text-lg font-semibold text-gray-800 mb-1">{text}</h3>
+      <h3 className="text-lg font-semibold text-gray-800 mb-1">
+        <Link href="/vs" className="hover:underline hover:text-indigo-600 transition-colors">
+          {text}
+        </Link>
+      </h3>
 <span className="text-lg font-semibold text-gray-500 mb-2">
   Meta: {totalOrders} / {targetOrders}
 </span>

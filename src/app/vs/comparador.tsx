@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface Precio {
   tienda: string;
@@ -43,7 +44,11 @@ export default function ComparadorPrecios({ producto }: ComparadorPreciosProps) 
             priority
           />
         </div>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">{producto.text}</h2>
+        <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight mb-2">
+            <Link href="/graph" className="hover:underline hover:text-indigo-600 transition-colors">
+                {producto.text}
+            </Link>
+        </h2>
       </div>
       <div className="flex flex-col gap-2">
         {producto.precios.map((p) => (
