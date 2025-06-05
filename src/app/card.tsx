@@ -13,22 +13,46 @@ type CardProps = {
 
 export default function Card({ img, text, orders, targetOrders }: CardProps) {
   const [quantity, setQuantity] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false); // FAVORITE STATE
 
   const totalOrders = orders + quantity;
   const groupProgress = Math.min((orders / targetOrders) * 100, 100);
   const userProgress = Math.min((quantity / targetOrders) * 100, 100);
-
   const isGoalReached = totalOrders >= targetOrders;
 
   const handleAdd = () => {
-    // Solo suma si NO se ha llegado a la meta
     if (totalOrders < targetOrders) setQuantity(q => q + 1);
   };
   const handleRemove = () => setQuantity(q => (q > 0 ? q - 1 : 0));
   const handleBuy = () => setQuantity(1);
 
+  // Favorito handler
+  const toggleFavorite = () => setIsFavorite(fav => !fav);
+
   return (
-    <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:scale-105 transition-transform">
+    <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:scale-105 transition-transform relative">
+      {/* Estrella en esquina superior derecha */}
+      <button
+        aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+        className="absolute top-3 right-3 focus:outline-none"
+        onClick={toggleFavorite}
+        tabIndex={0}
+      >
+        <svg
+          className={`w-7 h-7 transition-all duration-300
+            ${isFavorite ? "fill-yellow-400 stroke-yellow-500 scale-110 drop-shadow-lg" : "fill-transparent stroke-yellow-500"}
+            `}
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+        >
+          <polygon
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+          />
+        </svg>
+      </button>
+
       <div className="w-40 h-40 relative mb-2">
         <Image
           src={img}
@@ -43,13 +67,12 @@ export default function Card({ img, text, orders, targetOrders }: CardProps) {
           {text}
         </Link>
       </h3>
-<span className="text-lg font-semibold text-gray-500 mb-2">
-  Meta: {totalOrders} / {targetOrders}
-</span>
+      <span className="text-lg font-semibold text-gray-500 mb-2">
+        Meta: {totalOrders} / {targetOrders}
+      </span>
 
       {/* Barra de progreso */}
       <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-4 relative">
-        {/* Si la meta se logra, barra amarilla al 100% */}
         {isGoalReached ? (
           <div
             className="absolute left-0 top-0 h-full bg-yellow-400"
@@ -61,7 +84,6 @@ export default function Card({ img, text, orders, targetOrders }: CardProps) {
           />
         ) : (
           <>
-            {/* Barra de avance grupal */}
             <div
               className="absolute left-0 top-0 h-full bg-gradient-to-r from-indigo-400 to-blue-400"
               style={{
@@ -70,7 +92,6 @@ export default function Card({ img, text, orders, targetOrders }: CardProps) {
                 transition: "width 0.4s"
               }}
             />
-            {/* Barra de avance usuario (encima, solo si quantity > 0) */}
             {quantity > 0 && (
               <div
                 className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-400 to-emerald-500 opacity-95"
@@ -84,13 +105,11 @@ export default function Card({ img, text, orders, targetOrders }: CardProps) {
           </>
         )}
       </div>
-      {/* Mensaje al lograr el objetivo */}
       {isGoalReached && (
         <span className="text-sm font-bold text-yellow-500 mb-2 animate-bounce">
           ¡Precio logrado!
         </span>
       )}
-      {/* Botón de agregar al carrito */}
       {quantity === 0 ? (
         <button
           onClick={handleBuy}
